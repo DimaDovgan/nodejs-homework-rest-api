@@ -3,6 +3,7 @@ const ctrl=require("../../controllers/contacts")
 
 const router = express.Router()
 
+// DB_host = mongodb+srv://Dima:BUVu1QfgRgpjb1RZ@cluster0.trx80dd.mongodb.net/db-contacts?retryWrites=true&w=majority
 
 router.get('/' ,ctrl.getAll)
 
