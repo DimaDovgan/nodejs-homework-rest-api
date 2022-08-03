@@ -1,0 +1,30 @@
+const { createError } = require("../../helpers");
+const bcrypt=require("bcryptjs")
+const User=require("../../models/user")
+const { registerAuthSchema } = require("../../validation/joiValidation");
+const register = async (req, res,next) => {
+    try {
+    console.log(req.body)
+    const {error}=registerAuthSchema.validate(req.body)
+    if (error) {
+      throw createError(400,"Ошибка от Joi или другой библиотеки валидации")
+        }
+        const { email,password } = req.body;
+
+      const auth = await User.findOne({ email: email });
+      if (auth) {
+        console.log("exist already")
+        throw createError(409, `${email} is use`);
+      }
+      console.log(password)
+      const hashPassword = await bcrypt.hash(password,10);
+       console.log("result",hashPassword)
+
+      const result = await User.create({...req.body ,password:hashPassword} );
+      res.status(201).json({ user: { email: result.email, subscription: result.subscription } });
+    } catch (error) {
+      console.log("error")
+   next(error);
+  }
+}
+module.exports = register;

@@ -17,9 +17,25 @@ const updateContactSchema = Joi.object({
 const updateFavoriteSchema = Joi.object({
   favorite:Joi.boolean().required(),
 })
+const registerAuthSchema = Joi.object({
+  email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
+  subscription: Joi.string(),
+  password:Joi.string().required()
+})
+const loginAuthSchema = Joi.object({
+  email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
+  password:Joi.string().required()
+})
+const updateSubscriptionShema=Joi.object({
+  subscription: Joi.string().valid('starter', 'pro', 'business').required(),
+})
 
 module.exports = {
     addContactSchema,
     updateContactSchema,
-    updateFavoriteSchema,
+  updateFavoriteSchema,
+  registerAuthSchema,
+  loginAuthSchema,
+  updateSubscriptionShema
+    
 }
