@@ -2,7 +2,9 @@ const { createError } = require("../../helpers");
 const bcrypt=require("bcryptjs")
 const User=require("../../models/user")
 const { registerAuthSchema } = require("../../validation/joiValidation");
-const register = async (req, res,next) => {
+const gravatar = require("gravatar");
+
+const register = async (req, res, next) => {
     try {
     console.log(req.body)
     const {error}=registerAuthSchema.validate(req.body)
@@ -19,9 +21,9 @@ const register = async (req, res,next) => {
       console.log(password)
       const hashPassword = await bcrypt.hash(password,10);
        console.log("result",hashPassword)
-
-      const result = await User.create({...req.body ,password:hashPassword} );
-      res.status(201).json({ user: { email: result.email, subscription: result.subscription } });
+       const avatarUrl=gravatar.url(email);
+      const result = await User.create({...req.body ,password:hashPassword,avatarUrl} );
+      res.status(201).json({ user: { email: result.email, subscription: result.subscription ,avatarUrl:result.avatarUrl} });
     } catch (error) {
       console.log("error")
    next(error);
