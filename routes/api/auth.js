@@ -7,6 +7,8 @@ router.get('/login', ctrl.login);
 router.get('/current', auth, ctrl.current);
 router.post('/logout', auth, ctrl.logout);
 router.patch('/', auth, ctrl.subscriptionUpdate);
+router.get('/verify/:verificationToken', ctrl.verify);
+router.post('/verify',ctrl.resendVerifyEmail)
 
 router.patch('/avatars',auth,upload.single("avatar"), ctrl.updateAvatar);
 module.exports = router;

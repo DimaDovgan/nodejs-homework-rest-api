@@ -29,6 +29,9 @@ const loginAuthSchema = Joi.object({
 const updateSubscriptionShema=Joi.object({
   subscription: Joi.string().valid('starter', 'pro', 'business').required(),
 })
+const verifyEmail = Joi.object({
+  email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).required(),
+})
 
 module.exports = {
     addContactSchema,
@@ -36,6 +39,7 @@ module.exports = {
   updateFavoriteSchema,
   registerAuthSchema,
   loginAuthSchema,
-  updateSubscriptionShema
+  updateSubscriptionShema,
+  verifyEmail
     
 }
